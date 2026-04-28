@@ -285,8 +285,8 @@ Add a sketch with labels showing:
 - output elements.
 
 **Insert image below:**  
-`[Upload image and link here]`
-<img width="1600" height="1200" alt="images" src="images/mkb6" />
+`[<img width="1600" height="1200" alt="images" src="images/mkb6" />]`
+
 
 ## 7.3 Approximate Dimensions
 
