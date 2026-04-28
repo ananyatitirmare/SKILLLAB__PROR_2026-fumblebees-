@@ -262,7 +262,7 @@ There is no mobile app used in this project. The Arduino Serial Monitor acts as 
 Add an early sketch of the full idea.
 
 **Insert image below:**  
-`[Upload image and link here]`
+`[Upload image and link here]` 
 
 Example:
 
