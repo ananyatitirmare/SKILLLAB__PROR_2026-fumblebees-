@@ -341,12 +341,14 @@ Insert a hand-drawn or software-made circuit diagram.
 
 # 9. Power Plan
 
-| Question         | Response                                                                                                                                          |
-| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Power source     | `Battery (Li-ion pack)`                                                                                                                           |
-| Voltage required | `~6–8.4V for motors (via driver), stepped down to 5V for ESP32 (buck converter)`                                                                  |
-| Current concerns | `Motors can draw high current under load, which may cause voltage drops affecting ESP32 and WiFi stability`                                       |
-| Safety concerns  | `Avoid over-discharging Li-ion batteries, ensure proper voltage regulation, prevent short circuits, and secure wiring to avoid loose connections` |
+| Question         | Response                                                                                                                                |
+| ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| Power source     | USB power supply / 9V battery / external power bank                                                                                     |
+| Voltage required | 5V DC for Vicharak Shrike Lite / Arduino Uno system                                                                                     |
+| Current concerns | Buzzer, LEDs, and touch sensors consume very low current, but unstable power may cause false sensor readings or buzzer noise issues     |
+| Safety concerns  | Ensure correct polarity while wiring, avoid short circuits on breadboard, and keep connections tight to prevent system resets or dama
+
+In this project, since there are no motors or heavy loads, the power requirement is simple and stable. A standard USB power supply is sufficient to run the entire Morse Code Battle System reliably during demonstration.
 
 ---
 
@@ -377,22 +379,26 @@ Include:
 - reset behavior.
 
 **Response:**  
-`
+Here is your answer written **according to your exact code and project**:
 
-- **Startup behavior:**  
-  The ESP32 initializes motor pins, PWM control, and starts a WiFi access point with a web server. The laptop initializes camera input, tracking system, and projection mapping.
-- **Input handling:**  
-  Movement commands are received from the laptop (pygame sends http requests)
-- **Sensor reading:**  
-  The camera continuously captures frames, and OpenCV detects ArUco markers to determine the car’s position and orientation.
-- **Decision logic:**  
-  The system maps the car’s position into a virtual coordinate system and checks for nearby obstacles or collisions. If movement is valid, the command is allowed; if not, it is blocked or replaced with a feedback action (like a slight shake).
-- **Output behavior:**  
-  The ESP32 drives the motors using PWM signals to control speed and direction. The projector displays the updated game environment, including obstacles, targets, and feedback visuals.
-- **Communication logic:**  
-  The laptop sends HTTP requests (e.g., `/forward`, `/left`) to the ESP32 over WiFi. The ESP32 parses these commands and executes motor actions.
-- **Reset behavior:**  
-  If no command is received within a short timeout, the ESP32 stops the motors. The game resets when a level is completed or restarted.`
+---
+
+## **Code Working Description**
+
+### **Startup behavior:**
+When the system starts, both teams’ pins (touch sensors, LEDs, and buzzers) are initialized. The Serial Monitor starts communication at 115200 baud rate and waits until it is opened. After a short delay, the system prints “DASH DOT DUEL START” and prepares the game by selecting random words for both Team A and Team B. A countdown is shown so players can memorize the words before they are hidden.
+### **Input handling:**
+The main input comes from two touch sensors, one for each team. Players use short touches and long touches to generate Morse code. The system continuously checks whether the touch sensor is HIGH and measures how long it is pressed to decide whether it is a dot (.) or dash (_). Final guesses from players are also taken through the Serial Monitor input.
+### **Sensor reading:**
+The touch sensors act as the primary input “sensors.” The code reads the duration of each touch press using `millis()` timing. Based on the press time, it classifies the input into Morse symbols. No external analog sensors are used in this version—only digital touch detection.
+### **Decision logic:**
+The system compares press duration with a threshold (`SHORT_TOUCH = 300ms`). If the press is shorter, it is recorded as a dot; if longer, it is recorded as a dash. After gameplay, the system compares the guessed word with the original randomly selected word for each team to decide correctness and determine the winner.
+### **Output behavior:**
+The system outputs Morse playback using LEDs and buzzers. A dot is shown using a yellow LED blink, and a dash is shown using a buzzer sound. At the end of the round, green LEDs indicate correct answers, red LEDs indicate wrong answers, and messages are printed on the Serial Monitor for results and winner declaration.
+### **Communication logic:**
+All game communication happens through the Arduino Serial Monitor. It displays the secret words, countdown timer, player instructions, Morse input logs, playback signals, final guesses, and results. Players also enter their final answers through the Serial Monitor, which the system reads using serial input functions.
+### **Reset behavior:**
+After completing one round, the program enters an infinite loop (`while(1);`), meaning the system stops and does not restart automatically. To play again, the system must be manually reset or re-uploaded from the Arduino IDE.
 
 ## 10.3 Code Flowchart
 
@@ -410,9 +416,8 @@ Suggested sequence:
 - error handling.
 
 **Insert image below:**  
+<img width="1600" height="1200" alt="image" src="image/mkb9" />
 <img width="1600" height="1200" alt="image" src="" />
-<img width="1600" height="1200" alt="image" src="" />
-
 
 
 
@@ -420,48 +425,64 @@ Suggested sequence:
 
 ## 11.1 Full BOM
 
-| Item                             | Quantity | In Kit? | Need to Buy? | Estimated Cost | Material / Spec               | Why This Choice?          |
-| -------------------------------- | --------:| ------- | ------------ | --------------:| ----------------------------- | ------------------------- |
-| `[ESP32]`                        | `1`      | `Yes`   | `No`         | `0`            | `38 Pin ESP32`                | `[To control components]` |
-| `[Motor Driver]`                 | `[1]`    | `[Yes]` | `[No]`       | `0`            | `[LN296]`                     | `[To drive both motors]`  |
-| `[DC Motors and wheel]`          | `[2]`    | `[No]`  | `[Yes]`      | `[150]`        | `[BO Motors and 6 cm wheels]` | `[high torque motors]`    |
-| `[Buck Converter]`               | `[1]`    | `[No]`  | `[Yes]`      | `[75]`         |                               |                           |
-| `[Li-ion batteries with holder]` | `[1]`    | `[No]`  | `[Yes]`      | `[200]`        |                               |                           |
+| Item                               | Quantity | In Kit? | Need to Buy? | Estimated Cost | Material / Spec                   | Why This Choice?                                       |
+| ---------------------------------- | -------: | ------- | ------------ | -------------- | --------------------------------- | ------------------------------------------------------ |
+| Vicharak Shrike Lite / Arduino Uno |        1 | Yes     | No           | 0              | Microcontroller board             | Main controller for game logic and signal processing   |
+| Touch Sensor                       |        2 | Yes     | No           | 0              | Capacitive / digital touch module | Used for Morse code input (dot and dash control)       |
+| Yellow LED                         |        2 | Yes     | No           | 0              | 5mm LED                           | Displays Morse code signals visually                   |
+| Buzzer                             |        2 | Yes     | No           | 0              | 5V active buzzer                  | Produces Morse code sound signals                      |
+| Green LED                          |        2 | Yes     | No           | 0              | 5mm LED                           | Indicates correct answer                               |
+| Red LED                            |        2 | Yes     | No           | 0              | 5mm LED                           | Indicates wrong answer                                 |
+| Breadboard                         |        1 | Yes     | No           | 0              | Standard breadboard               | Used for circuit connections                           |
+| Jumper Wires                       |      Set | Yes     | No           | 0              | Male-to-male / female wires       | Electrical connections between components              |
+| USB Cable / Power Supply           |        1 | Yes     | No           | 0              | 5V USB power                      | Powers the controller and circuit                      |
+| Laptop / PC                        |        1 | Yes     | No           | 0              | Computer system                   | Runs Arduino IDE and Serial Monitor for game interface |
 
 ## 11.2 Material Justification
 
 Explain why you selected your main materials and components.
 
 **Response:**  
-`DC motors (BO motors) were chosen instead of servos or steppers because the system requires continuous rotation for movement rather than precise angular control (Previously, we were considering using steppers as we were planning on tracking movement on the ESP using its relative position from an origin, but since we're using a camera now, this is not required). A motor driver (L298N) was used to allow bidirectional control and speed variation using PWM.`
+## 11.2 Material Justification
+
+The Vicharak Shrike Lite / Arduino Uno was selected as the main controller because it is capable of handling multiple digital inputs and outputs simultaneously, which is essential for managing touch sensors, LEDs, buzzer signals, and Serial Monitor communication in a real-time game system.
+
+Touch sensors were chosen instead of push buttons because they provide a more interactive and fast-response method for entering Morse code using simple short and long touches. LEDs and buzzers were used as output devices because they clearly represent Morse code signals in both visual (light) and audio (sound) forms, making it easier for the second player to decode the message accurately. The Serial Monitor was selected as the display interface because it eliminates the need for an LCD and simplifies the system while still effectively showing words, inputs, and results in real time.
 
 
 ## 11.3 Items You chose
 
-| Item                 | Why Needed               | Purchase Link | Latest Safe Date to Procure | Status       |
-| -------------------- | ------------------------ | ------------- | --------------------------- | ------------ |
-| `BO Motors + Wheels` | `Drive system for car`   | `robu.in`     | `15th April`                | `[Received]` |
-| `Buck Converter`     | `Stable power for ESP32` | `local store` | `before testing`            | `[Received]` |
-| `Li-ion Batteries`   | `Portable power`         | `local store` | `before testing`            | `Recieved`   |
+| Item                               | Why Needed                                                | Purchase Link     | Latest Safe Date to Procure | Status   |
+| ---------------------------------- | --------------------------------------------------------- | ----------------- | --------------------------- | -------- |
+| Touch Sensor                       | Used for entering Morse code using short and long touches | kit               | Before integration testing  | Received |
+| Vicharak Shrike Lite /             | Main controller for processing inputs and outputs         | kit               | Before coding phase         | Received |
+| LED (Red, Green, Yellow)           | Visual indication of Morse signals and results            | kit               | Before circuit assembly     | Received |
+| Buzzer                             | Generates Morse code sound signals                        | kit               | Before testing              | Received |
+| Breadboard                         | For circuit assembly and connections                      | kit               | Before wiring setup         | Received |
+| Jumper Wires                       | Used for connecting all components                        | kit               | Before wiring setup         | Received |
+| USB Cable / Power Supply           | Powers the entire system                                  | kit               | Before testing phase        | Received |
+| Laptop / PC                        | Runs Arduino IDE and Serial Monitor                       | available         | Always available            | Received |
 
 ## 11.4 Budget Summary
 
-| Budget Item           | Estimated Cost              |
-| --------------------- | ---------------------------:|
-| Electronics           | `[400]`                     |
-| Mechanical parts      | `[200]`                     |
-| Fabrication materials | `[0 (Available on campus)]` |
-| Purchased extras      | `[0]`                       |
-| Contingency           | `[300]`                     |
-| **Total**             | `[900]`                     |
+| Budget Item                                                 | Estimated Cost |
+| ----------------------------------------------------------- | -------------: |
+| Electronics (touch sensors, LEDs, buzzer, controller setup) |            500 |
+| Mechanical parts (base board, mounting, structural setup)   |            150 |
+| Fabrication materials (wires, breadboard, connectors)       |            100 |
+| Purchased extras (if required minor components)             |              0 |
+| Contingency (testing, replacement, misc.)                   |            150 |
+| **Total**                                                   |        **900** |
+
 
 ## 11.5 Budget Reflection
 
 If your cost is too high, what can be simplified, removed, substituted, or shared?
 
 **Response:**  
+The overall cost of the project can be reduced further by simplifying the output and display components. Since the Arduino Serial Monitor is used instead of an LCD, we already eliminate the cost of display hardware. The system can also be built using only one set of LEDs (instead of multiple indicators per team) if budget needs to be minimized, while still maintaining the core Morse code experience.
+Additional savings can be achieved by using only a single buzzer instead of separate buzzers for both teams, and by reusing components already available in the kit rather than purchasing extra modules. The touch sensors, LEDs, and controller board are already sufficient to demonstrate the full functionality, so no major hardware expansion is required. In case of shared resources, components like the laptop (for Serial Monitor) and power supply can be used commonly across both teams, further reducing the effective cost of the system.
 
----
 
 # 12. Planning the Work
 
@@ -478,25 +499,47 @@ Include:
 - how documentation will be maintained.
 
 **Response:**  
+## Team Working Plan
+
+* **Task division:**
+  Nirmiti will handle the coding part, including game logic, Morse code encoding/decoding, and Serial Monitor interaction. Khushi will handle all hardware connections and circuit setup, including touch sensors, LEDs, and buzzer wiring. Ananya will be responsible for documentation, including reports, diagrams, and written content. Ishaan will handle the PPT design and final presentation preparation.
+
+* **Decision making:**
+  All important decisions (such as circuit changes, code updates, or feature additions) will be discussed as a team and finalized through mutual agreement to ensure clarity and avoid errors.
+
+* **Progress tracking:**
+  Time to time progress will be checked by reviewing completed tasks such as working hardware setup, tested codes, playing the game to chgeck the progress, and completed documentation sections. Short group discussions will be held to ensure all parts are aligned.
+
+* **If a task is delayed:**
+  If any task is delayed, other team members will support by sharing workload or adjusting responsibilities temporarily to ensure the project stays on schedule and is completed within the deadline.
+
+* **Documentation maintenance:**
+  Ananya will continuously update documentation during development so that all changes, circuit updates, and code modifications are recorded in real time for the final report submission.
 
 
 ## 12.2 Task Breakdown
 
-| Task ID | Task                    | Owner    | Estimated Hours | Deadline     | Dependency | Status |
-| ------- | ----------------------- | -------- | ---------------:| ------------ | ---------- | ------ |
-| T1      | `[Finalize concept]`    | `[Both]` | `2`             | `1st April`  | `None`     | `Done` |
-
+| Task ID | Task                                            | Owner   | Estimated Hours | Deadline      | Dependency | Status      |
+| ------- | ----------------------------------------------- | ------- | --------------: | ------------- | ---------- | ----------- |
+| T1      | Finalize concept and game design                | Team    |               1 | 28th April    | None       | Done        |
+| T2      | Hardware planning and component selection       | Khushi  |               1 | 28th April    | T1         | Done        |
+| T3      | Circuit connections (touch sensor, LED, buzzer) | Khushi  |               1 | 28th April    | T2         | Done        |
+| T4      | Core coding (Morse logic + game flow)           | Nirmiti |               1 | 28th April    | T2         | In Progress |
+| T5      | Serial Monitor integration and testing          | Nirmiti |               1 | 28th April    | T4         | Pending     |
+| T6      | Documentation writing                           | Ananya  |               1 | 28th April    | T1         | In Progress |
+| T7      | PPT preparation and design                      | Ishaan  |               1 | 28th April    | T1         | Pending     |
+| T8      | Final testing and debugging                     | Team    |               1 | 28th April    | T4, T5     | Pending     |
 
 ## 12.3 Responsibility Split
 
-| Area                 | Main Owner | Support Owner |
-| -------------------- | ---------- | ------------- |
-| Concept              | `[Gopal]`  | `[Kader]`    |
-| Electronics          | `[]`       | `[]`     |
-| Coding               | `[]`       | `[]`     |
-| Mechanical build     | `[]`       | `[]`    |
-| Testing              | `[]`       | `[]`    |
-| Documentation        | `[]`       | `[]`     |
+| Area                 | Main Owner        | Support Owner         |
+| -------------------- | ----------        | -------------         |
+| Concept              | `[Nirmiti]`       | `[Ananya, Khushi]`    |
+| Electronics          | `[Khushi]`        | `[Nirmiti,Ananya]`    |
+| Coding               | `[Nirmiti]`       | `[Khushi,Ananya]`     |
+| Mechanical build     | `[Nirmiti,Khushi]`| `[Ananya]`            |
+| Testing              | `[Nirmiti,Khushi]`| `[Ananya]`            |
+| Documentation        | `[Ananya]`        | `[Nirmiti,Khushi]`    |
 
 ---
 
@@ -512,16 +555,16 @@ Expected outcomes:
 - [x] Core interaction decided
 - [x] Sketches made
 - [x] BOM completed
-- [x] Purchase needs identified
+- [ ] Purchase needs identified
 - [ ] Key uncertainty identified
-- [x] Basic feasibility tested
+- [ ] Basic feasibility tested
 
 ### Bi Hour 2 — Build Subsystems
 
 Expected outcomes:
 
 - [x] Electronics tests completed
-- [ ] CAD / structure planning completed
+- [x] CAD / structure planning completed
 - [ ] App UI started if needed
 - [x] Mechanical concept tested
 - [x] Main subsystems partially working
@@ -530,11 +573,11 @@ Expected outcomes:
 
 Expected outcomes:
 
-- [x] Physical body built
+- [ ] Physical body built
 - [x] Electronics integrated
 - [x] Code connected to hardware
 - [ ] App connected if required
-- [x] First playable version exists
+- [ ] First playable version exists
 
 ### Bi Hour 4 — Refine and Finish
 
@@ -547,13 +590,12 @@ Expected outcomes:
 - [x] Final build ready
 
 ## 13.2  Update Log
-
-| Week   | Planned Goal   | What Actually Happened | What Changed   | Next Steps     |
-| ------ | -------------- | ---------------------- | -------------- | -------------- |
-| Week 1 | `[Write here]` | `[Write here]`         | `[Write here]` | `[Write here]` |
-| Week 2 | `[Write here]` | `[Write here]`         | `[Write here]` | `[Write here]` |
-| Week 3 | `[Write here]` | `[Write here]`         | `[Write here]` | `[Write here]` |
-| Week 4 | `[Write here]` | `[Write here]`         | `[Write here]` | `[Write here]` |
+| Week   | Planned Goal                                                             | What Actually Happened                                                                | What Changed                                                                                         | Next Steps                                                   |
+| ------ | ------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| Week 1 | Finalize project idea, select components, and define game rules          | We finalized the Real-Time Morse Code Battle concept and listed required components | Initial idea was simplified from 4 player system to 2-team format for easy implementation | Start circuit design and begin basic coding setup            |
+| Week 2 | Complete hardware connections and basic wiring                           | Touch sensors, LEDs, and buzzer connections were successfully tested on breadboard    | Some output structure changed (separate LEDs for teams simplified for stability)                     | Begin full Morse code encoding and decoding logic            |
+| Week 3 | Develop and test main code (touch input + Morse output + Serial Monitor) | Core logic for dot/dash detection and playback was implemented and tested             | Timing thresholds were adjusted for more accurate touch detection                                    | Integrate full game flow and fix bugs                        |
+| Week 4 | Final integration, testing, and presentation preparation                 | System was successfully integrated with working gameplay and Serial Monitor output    | Minor debugging done in input reading and output timing                                              | Final testing, documentation completion, and PPT preparation |
 
 ---
 
@@ -561,10 +603,16 @@ Expected outcomes:
 
 ## 14.1 Risk Register
 
-| Risk                                                            | Type         | Likelihood | Impact   | Mitigation Plan                                                                       | Owner                |
-| --------------------------------------------------------------- | ------------ | ---------- | -------- | ------------------------------------------------------------------------------------- | -------------------- |
-| WiFi connection between laptop and ESP32 becomes unstable       | `Technical`  | `Medium`   | `High`   | Keep ESP32 close, ensure stable power supply, reduce network load, add fail-safe stop | `[Gopal]`           |
+## 14.1 Risk Register
 
+| Risk                                                              | Type       | Likelihood | Impact | Mitigation Plan                                                                    | Owner   |
+| ----------------------------------------------------------------- | ---------- | ---------- | ------ | ---------------------------------------------------------------------------------- | ------- |
+| Touch sensor gives false triggers or noisy readings               | Technical  | Medium     | High   | Add software debouncing, adjust delay timing, test multiple touch thresholds       | Khushi  |
+| Morse code timing (dot/dash) misinterpretation due to human delay | Technical  | High       | High   | Calibrate time threshold (SHORT_TOUCH), practice testing, allow tolerance in logic | Nirmiti |
+| Serial Monitor input delay or missed input                        | Technical  | Medium     | Medium | Ensure proper `Serial.available()` checks and delay handling in code               | Nirmiti |
+| Wrong wiring or loose connections on breadboard                   | Hardware   | Medium     | High   | Double-check connections before power ON, use proper labeling of pins              | Khushi  |
+| Power fluctuation causing reset or unstable output                | Electrical | Low        | High   | Use stable USB power supply and common ground for all components                   | Khushi  |
+| Game confusion due to fast Morse transmission                     | Human      | Medium     | Medium | Add clear LED + buzzer playback and allow repetition during demo                   | Team    |
 
 ## 14.2 Biggest Unknown Right Now
 
