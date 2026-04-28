@@ -714,6 +714,7 @@ Suggested images:
 <img width="867" height="1156" alt="images" src="images/mkb3.jpeg" />
 <img width="867" height="1156" alt="images" src="images/mkb11.jpeg" />
 <img width="867" height="1156" alt="images" src="images/mkb10.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb12.jpeg" />
 
 # 17. Final Outcome
 
@@ -842,7 +843,7 @@ Before submission, confirm that:
 - [x] Playtesting notes are included
 - [x] Build photos are included
 - [x] Final reflection is written
-<img width="1131" height="1600" alt="image" src="" />
+
 
 ---
 
