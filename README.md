@@ -712,7 +712,8 @@ Suggested images:
 -
 <img width="867" height="1156" alt="images" src="images/mkb4.jpeg" />
 <img width="867" height="1156" alt="images" src="images/mkb3.jpeg" />
-
+<img width="867" height="1156" alt="images" src="images/mkb11.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb10.jpeg" />
 
 # 17. Final Outcome
 
