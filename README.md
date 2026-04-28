@@ -74,7 +74,7 @@ By the final review, this README should clearly show:
 
 `"Morse Mayhem"``
 
-<img width="1600" height="1131" alt="image" src="image/mkb1.jpeg" />
+<img width="1600" height="1131" alt="image" src="image/mkb1.jpeg"/>
 
 ## 1.4 One-Line Pitch
 
