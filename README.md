@@ -262,8 +262,8 @@ There is no mobile app used in this project. The Arduino Serial Monitor acts as 
 Add an early sketch of the full idea.
 
 **Insert image below:**  
-`[<img width="1600" height="1131" alt="image" src="image/mkb4.jpeg" />]` 
-`[<img width="1600" height="1131" alt="image" src="image/mkb5.jpeg" />]` 
+`[<img width="1600" height="1131" alt="images" src="images/mkb4.jpeg" />]` 
+`[<img width="1600" height="1131" alt="images" src="images/mkb5.jpeg" />]` 
 
 
 Example:
@@ -286,7 +286,7 @@ Add a sketch with labels showing:
 
 **Insert image below:**  
 `[Upload image and link here]`
-<img width="1600" height="1200" alt="image" src="image/mkb6" />
+<img width="1600" height="1200" alt="images" src="images/mkb6" />
 
 ## 7.3 Approximate Dimensions
 
@@ -333,7 +333,7 @@ Insert a hand-drawn or software-made circuit diagram.
 
 **Insert image below:**  
 `[Upload image and link here]`
-<img width="867" height="1156" alt="image" src="image/mkb4.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb4.jpeg" />
 
 
 
@@ -416,7 +416,7 @@ Suggested sequence:
 - error handling.
 
 **Insert image below:**  
-<img width="1600" height="1200" alt="image" src="image/mkb9" />
+<img width="1600" height="1200" alt="images" src="images/mkb9" />
 <img width="1600" height="1200" alt="image" src="" />
 
 
