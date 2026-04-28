@@ -72,7 +72,7 @@ By the final review, this README should clearly show:
 
 ## 1.3 Project Title
 
-`"Morse Mayhem"``
+`"Morse Mayhem"`
 
 <img width="1600" height="1131" alt="images" src="images/mkb1.jpeg"/>
 
@@ -321,11 +321,13 @@ Add a sketch with labels showing:
 Describe the main electrical connections.
 
 **Response:**  
-`The ESP32 is connected to the motor driver (L298N) using four GPIO pins (18,19; 22,23) to control motor direction (IN1, IN2, IN3, IN4). Two PWM-capable pins (ENA and ENB; 25 and 26) are connected to control the speed of each motor.
+## 8.2 Wiring Plan
 
-The motors are connected to the output terminals of the motor driver. The motor driver is powered directly by the battery pack (higher voltage), while the ESP32 receives regulated 5V from the buck converter.
+The main controller (Vicharak Shrike Lite ) is connected to two touch sensors using digital input pins. TOUCH_A is connected to pin 14 and TOUCH_B is connected to pin 19. These sensors are used by Player 1 of each team to enter Morse code using short and long touches.
 
-All components share a common ground to ensure stable operation. The projector and camera are connected to the laptop, which handles tracking and game logic separately.`
+The output system is connected through multiple GPIO pins. Yellow LEDs (YELLOW_A on pin 15 and YELLOW_B on pin 20) are used to display Morse code signals visually. Buzzers (BUZZER_A on pin 16 and BUZZER_B on pin 21) are used to produce sound signals for dot and dash representation.
+
+For result indication, GREEN_A (pin 17) and GREEN_B (pin 22) are used to show correct answers, while RED_A (pin 18) and RED_B (pin 26) are used to indicate wrong answers. All components are connected with a common ground to ensure stable operation and avoid signal issues.
 
 ## 8.3 Circuit Diagram
 
@@ -344,7 +346,7 @@ Insert a hand-drawn or software-made circuit diagram.
 | Question         | Response                                                                                                                                |
 | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
 | Power source     | USB power supply / 9V battery / external power bank                                                                                     |
-| Voltage required | 5V DC for Vicharak Shrike Lite / Arduino Uno system                                                                                     |
+| Voltage required | 5V DC for Vicharak Shrike Lite                                                                                    |
 | Current concerns | Buzzer, LEDs, and touch sensors consume very low current, but unstable power may cause false sensor readings or buzzer noise issues     |
 | Safety concerns  | Ensure correct polarity while wiring, avoid short circuits on breadboard, and keep connections tight to prevent system resets or dama
 
@@ -603,7 +605,6 @@ Expected outcomes:
 
 ## 14.1 Risk Register
 
-## 14.1 Risk Register
 
 | Risk                                                              | Type       | Likelihood | Impact | Mitigation Plan                                                                    | Owner   |
 | ----------------------------------------------------------------- | ---------- | ---------- | ------ | ---------------------------------------------------------------------------------- | ------- |
@@ -619,30 +620,41 @@ Expected outcomes:
 What is the single biggest uncertainty in your project at this stage?
 
 **Response:**  
-
+The biggest uncertainty in our project right now is how accurately the touch sensor will detect dots and dashes in real time, because different players may press the sensor with different speeds.
 
 ---
 
-# 15. Testing 
-
 ## 15.1 Technical Testing Plan
 
-| What Needs Testing     | How You Will Test It                                                                 | Success Condition                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
-| `[Wifi connection]`    | `[Check if motor spins via app button]`                                              | `[Both motors accurately respond to wifi signals]`                                                   |
+| What Needs Testing                      | How You Will Test It                                                | Success Condition                                         |
+| --------------------------------------- | ------------------------------------------------------------------- | --------------------------------------------------------- |
+| Touch sensor input (dot/dash detection) | Test multiple short and long touches from different users           | Correctly distinguishes dot (.) and dash (_) consistently |
+| Morse code output (LED + buzzer)        | Run sample words and observe LED blinking and buzzer sound patterns | Output matches correct Morse code pattern for each letter |
+| Game flow (word display and hiding)     | Observe Serial Monitor during gameplay                              | Word appears for few seconds and disappears properly      |
+| Answer input via Serial Monitor         | Enter test answers manually                                         | System correctly reads and processes input without delay  |
+| Result display (win/lose)               | Test correct and incorrect answers for both teams                   | Green LED for correct, red LED for wrong works properly   |
+| Full game round execution               | Run complete game cycle from start to end                           | One full round completes without errors or crashes        |
+                            |
                        |
 ## 15.2 Testing and Debugging Log
 
-| Date          | Problem Found                         | Type         | What You Tried                                | Result               | Next Action                                    |
-| ------------- | ------------------------------------- | ------------ | --------------------------------------------- | -------------------- | ---------------------------------------------- |
-| `18th April`  | `Car not balancing properly`          | `Mechanical` | `Add low-friction caster support to one side` | `Worked`             | `improve caster structure`                     |
+| Date       | Problem Found                                               | Type      | What You Tried                                                      | Result                                            | Next Action                                      |
+| ---------- | ----------------------------------------------------------- | --------- | ------------------------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------ |
+| 28th April | Touch sensor sometimes not detecting proper dot/dash timing | Technical | Adjusted SHORT_TOUCH threshold and tested multiple press durations  | Improved accuracy but still slightly inconsistent | Fine-tune timing values and test with more users |
+| 28th April | Morse output (LED + buzzer) was not clearly distinguishable | Technical | Increased delay between dot and dash signals                        | Signals became clearer and easier to understand   | Optimize timing for faster gameplay              |
+| 28th April | Serial Monitor input delay during answer submission         | Software  | Improved Serial.available() handling and reduced unnecessary delays | Input became smoother                             | Further optimize input timeout handling          |
+| 28th April | Wrong answer sometimes marked due to extra spaces           | Software  | Used `.trim()` and `.toUpperCase()` for input cleanup               | Accuracy improved                                 | Final validation testing                         |
+| 28th April | Full game flow interruption during continuous loop testing  | System    | Added proper round structure and controlled loop execution          | Game runs smoothly for one full round             | Test multi-round version (optional upgrade)      |
 
 
 ## 15.3 Playtesting Notes
 
-| Tester      | What They Did                        | What Confused Them                    | What They Enjoyed                         | What You Will Change                          |
-| ----------- | ------------------------------------ | ------------------------------------- | ----------------------------------------- | --------------------------------------------- |
-| `Gopal` | `Tried navigating through obstacles` | `Some obstacles ewren't clear enough` | `Liked projection + real car interaction` | `Add a slight red highlight around obstacles` |
+| Tester   | What They Did                                           | What Confused Them                                       | What They Enjoyed                                 | What You Will Change                                           |
+| -------- | ------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------- | -------------------------------------------------------------- |
+| Player 1 | Tried encoding words into Morse code using touch sensor | Sometimes confused between short and long touch timing   | Enjoyed the challenge of converting words quickly | Improve timing sensitivity and give clearer practice round     |
+| Player 2 | Observed LED and buzzer signals to decode Morse code    | Found fast signals slightly difficult to follow at first | Liked the real-time sound + light interaction     | Add slightly longer gaps between letters for clarity           |
+| Player 3 | Entered guessed words using Serial Monitor              | Occasionally forgot exact spelling of word               | Enjoyed guessing under time pressure              | Allow optional hint or replay of Morse sequence once per round |
+
 
 
 ---
@@ -664,21 +676,30 @@ Include:
 - revisions.
 
 **Response:**  
-`The fabrication process involved designing, manufacturing, assembling, and refining both the physical structure and electronic integration of the system.`
+## 16.1 Fabrication Process
 
-`Design (CAD Modeling):
-The initial model was created using CAD software, where components were designed based on the actual dimensions of the electronic parts. This ensured accurate fitting and minimized errors during assembly.
-Cutting (Laser Cutting):
-The designed parts were fabricated using laser cutting techniques. Sheets were cut precisely according to the CAD model to create the structural base and mounts for components.`
+The fabrication process involved designing, assembling, wiring, and testing the full Morse Code Battle System as a working physical prototype.
 
-`Components were fixed using adhesives and mechanical supports. Certain parts were intentionally kept modular (not permanently fixed) to allow easy replacement and modification of electronics.
-Surface Finishing:
-Some parts were sanded to smooth rough edges after cutting. Sawdust mixed with adhesive was used to fill gaps and uneven edges, improving structural finish. The final structure was then painted for better aesthetics and durability.`
+**Design:**
+First, the overall layout of the project was planned on paper, deciding where the touch sensors, LEDs, buzzer, and controller board would be placed for both teams. This helped in organizing the game setup into two clear player sections.
 
-`Environment Setup (Dark Room Fabrication):
-To enhance projection visibility, a controlled dark environment was created using Z-boards, paper sheets, and bedsheets. This minimized external light interference and improved projection clarity.
-Revisions and Iterations:
-Multiple adjustments were made throughout the process, including refining alignment, improving structural stability, repositioning components, and optimizing the interaction between the physical car and projected environment.`
+**Cutting / Base Setup:**
+A simple base structure (cardboard/board) was prepared and cut to size to hold all components neatly. Separate areas were marked for Team A and Team B to avoid confusion during gameplay.
+
+**Assembly:**
+All electronic components like the Shrike Lite/Arduino board, touch sensors, LEDs, and buzzer were placed on the base structure. Components were positioned in a way that both teams could easily interact with their inputs and outputs.
+
+**Fastening:**
+Components were fixed using tape, glue, and mounting supports. The breadboard was kept stable to prevent loose connections during testing and gameplay.
+
+**Wiring:**
+Jumper wires were used to connect touch sensors, LEDs, and buzzer to the controller board. Care was taken to ensure proper pin mapping and common ground connection for stable operation.
+
+**Finishing:**
+After wiring, the setup was cleaned and organized to avoid loose wires. LEDs and sensors were labeled for easier understanding during demonstration.
+
+**Revisions:**
+During testing, minor changes were made such as adjusting touch sensor sensitivity, correcting LED/buzzer timing, and improving wire connections for better stability and accuracy during gameplay.
 
 ## 16.2 Build Photos
 
@@ -705,13 +726,16 @@ Suggested images:
 Describe the final version of your project.
 
 **Response:**  
+The final version of our project is a **Real-Time Morse Code Battle System** where two teams compete by encoding and decoding words using Morse code. Player 1 sees a secret word on the Serial Monitor and sends it using a touch sensor as dots and dashes, which are displayed through a buzzer and LED. Player 2 decodes the signal and guesses the word. The system checks the answer and shows results using green (correct) and red (wrong) LEDs, making it a complete interactive hardware-based game.
 
 
 ## 17.2 What Works Well
+Touch sensor works well
 
 
 
 ## 17.3 What Still Needs Improvement
+wiring needs improvement
 
 
 ## 17.4 What Changed From the Original Plan
@@ -719,7 +743,7 @@ Describe the final version of your project.
 How did the project change from the initial idea?
 
 **Response:**  
-
+Initially we decided 4 player game then we shifted to 2 player , we decided to mark the winner on the basis of quickest answer, but now the winner will be the one with correct answer
 
 ---
 
@@ -732,7 +756,7 @@ What slowed you down?
 How well did you manage time, tasks, and responsibilities?
 
 **Response:**  
-
+Our team worked on their assign task very well , managed the failures quickly .We got slowed down mainly during debugging, especially with touch sensor timing and getting correct dot/dash detection. Sometimes wiring mistakes and unexpected output issues also took extra time to fix. Most tasks were completed on schedule, but a few parts took longer during integration, so we had to adjust and support each other to finish the project on time.
 
 ## 18.2 Technical Reflection
 
@@ -745,6 +769,20 @@ What did you learn about:
 - integration?
 
 **Response:**  
+**Electronics:**
+We learned how basic components like touch sensors, LEDs, and buzzers actually behave in real circuits. Small issues like loose connections, wrong pin mapping, or unstable power can completely affect the output, so proper wiring and grounding is very important.
+
+**Coding:**
+We understood how timing-based coding works using `millis()` to detect dot and dash inputs. We also learned how Serial Monitor communication, string handling, and condition checking are used to build a complete game flow.
+
+**Mechanisms:**
+We learned how simple input actions (short and long touch) can be converted into meaningful signals (Morse code). It showed us how physical actions can be translated into digital logic.
+
+**Fabrication:**
+We learned how important planning and layout are before building. Even a simple structure needs proper placement of components so that the system is easy to use and looks organized during demonstration.
+
+**Integration:**
+We understood how different parts of a system (input, processing, and output) must work together smoothly. Even if individual parts work separately, the real challenge is making the full system function as one complete working project without errors.
 
 
 ## 18.3 Design Reflection
@@ -760,14 +798,30 @@ What did you learn about:
 
 **Response:**  
 
+**Designing:**
+We learned that good design is not just about adding components, but about planning the whole system in a simple and structured way. Dividing the setup into two teams and clearly separating input and output made the project easier to build and use.
+
+**Delight:**
+We understood that small elements like buzzer sounds, LED blinking, and real-time competition make the project more fun and engaging. These simple effects increase user interest and make the experience feel like a real game.
+
+**Clarity:**
+We realized that clarity is very important in both hardware and code. Clear wiring, labeled components, and simple Serial Monitor messages helped avoid confusion during gameplay.
+
+**Physical Interaction:**
+We learned how important hands-on interaction is in embedded systems. Using touch sensors instead of buttons made the game more natural and engaging, as players directly control the system using physical actions.
+
+**Understanding:**
+We understood how each part of the system (input, processing, output) connects together. Seeing the full flow from touch input to Morse output helped us understand how embedded systems actually work in real time.
+
+**Iteration:**
+We learned that the first version is never perfect. We had to repeatedly test, fix timing issues, adjust sensor sensitivity, and improve output delays to make the system more accurate and playable.
 
 ## 18.4 If You Had One More hour
 
 What would you improve next?
 
 **Response:**  
-
-` `
+We would add more challanges and more levels to our game , and also add voice modulation to make it more interesting.
 
 ---
 
