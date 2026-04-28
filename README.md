@@ -845,7 +845,7 @@ Before submission, confirm that:
 - [x] Playtesting notes are included
 - [x] Build photos are included
 - [x] Final reflection is written
-<img width="867" height="1156" alt="images" src="images/mkb13.mp4"/>
+<img width="1600" height="1131" alt="images" src="images/mkb13.mp4" /> 
 
 
 ---
