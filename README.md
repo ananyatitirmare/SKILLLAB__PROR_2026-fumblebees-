@@ -158,20 +158,20 @@ Meanwhile, Player 2 of each team carefully watches the LED blinking pattern and 
 # 5. Definition of Success
 
 ## 5.1 Definition of “Usable”
-
+The project is considered usable when two teams can successfully play the Morse Code Battle by viewing a secret word, converting it into Morse code using the touch sensor, transmitting the signals through LED and buzzer outputs, and allowing the second player to decode and guess the correct word. The system should correctly display the word, generate proper Morse code signals, and verify the final answer through the Arduino Serial Monitor.
 
 
 ## 5.2 Minimum Usable Version
 
 What is the smallest version of this project that still delivers the core experience?
-
 **Response:**  
+The smallest version of this project that still delivers the core experience includes Vicharak Shrike Lite, one touch sensor for Morse code input, one LED and one buzzer for Morse signal output, and the Arduino Serial Monitor for displaying the secret word and checking the guessed answer. Even without advanced features like scoring, multiple rounds, or voice output, the basic gameplay of encoding, transmitting, and decoding Morse code should work properly.
 
 
 ## 5.3 Stretch Features
 
 What features are nice to have but not essential?
-
+Nice-to-have but non-essential features include multiple difficulty levels with longer or technical words, automatic score tracking for multiple rounds, timer-based speed competition, voice announcements using a voice module, separate team scoreboards, and bonus challenge rounds. We can also use a green LED to indicate a correct answer and a red LED to indicate a wrong answer, making the result more visual and interactive for the players. These features improve the user experience and make the game more exciting, but they are not necessary for the core functionality of the project.-
 
 ---
 
@@ -187,11 +187,11 @@ Check all that apply.
 
 - [x] Sensor-based
 
-- [x] App-connected
+- [ ] App-connected
 
-- [x] Motorized
+- [ ] Motorized
 
-- [ ] Sound-based
+- [x] Sound-based
 
 - [x] Light-based
 
@@ -218,10 +218,39 @@ Include:
 - app interaction if any.
 
 **Response:**  
+**Input:**
+The main input of the system is the two touch sensors used by Player 1 of each team to enter Morse code. A secret word such as “HI,” “CAT,” “DOG,” or “BAT” is first shown on the Arduino Serial Monitor for a few seconds so the players can memorize it. After the word disappears, Player 1 uses the touch sensor to convert the word into Morse code, where a short touch represents a dot (.) and a long touch represents a dash (-).
+
+**Processing:**
+The Vicharak Shrike Lite acts as the main controller and processes the touch sensor input. It measures how long the touch sensor is pressed and compares it with a fixed time threshold. If the touch is short, it is considered a dot, and if it is longer, it is considered a dash. The system then matches the input with the Morse code pattern of the selected word and prepares the signal output.
+
+**Output:**
+The system gives output using yellow LEDs and buzzers for both teams. The yellow LED blinks and the buzzer produces short and long beeps according to the Morse code pattern, helping Player 2 observe and listen carefully. After decoding, Player 2 enters the guessed word into the Arduino Serial Monitor. If the answer is correct, the green LED glows; if the answer is wrong, the red LED blinks.
+
+**Physical Structure:**
+The physical structure includes the Vicharak Shrike Lite board, two touch sensors, yellow LEDs for Morse signal output, green and red LEDs for result indication, two buzzers, jumper wires, breadboard, and power supply. All components are connected in a compact tabletop setup so that both teams can play and interact easily during the game.
+
+**App Interaction (if any):**
+There is no mobile app used in this project. The Arduino Serial Monitor acts as the display and interaction platform. It shows the secret word, game instructions, player turns, guessed answers, and final results, making the entire system simple and fully hardware-based.
+
 
 ## 6.3 Input / Output Map
 
 | System Part                              | Type            | What It Does                                                               |
+| System Part            | Type            | What It Does                                                                                   |
+| ---------------------- | --------------- | ---------------------------------------------------------------------------------------------- |
+| Touch Sensor 1         | Input           | Used by Player 1 of Team 1 to enter Morse code using short and long touches                    |
+| Touch Sensor 2         | Input           | Used by Player 1 of Team 2 to enter Morse code using short and long touches                    |
+| Arduino Serial Monitor | Input / Output  | Displays secret word, game instructions, player turns, and accepts guessed words from Player 2 |
+| Vicharak Shrike Lite   | Processing Unit | Processes touch input, identifies dots and dashes, controls outputs, and checks final answers  |
+| Yellow LED 1           | Output          | Blinks Morse code signals for Team 1                                                           |
+| Yellow LED 2           | Output          | Blinks Morse code signals for Team 2                                                           |
+| Buzzer 1               | Output          | Produces Morse code beep sounds for Team 1                                                     |
+| Buzzer 2               | Output          | Produces Morse code beep sounds for Team 2                                                     |
+| Green LED 1            | Output          | Glows when Team 1 gives the correct answer                                                     |
+| Green LED 2            | Output          | Glows when Team 2 gives the correct answer                                                     |
+| Red LED 1              | Output          | Blinks when Team 1 gives the wrong answer                                                      |
+| Red LED 2              | Output          | Blinks when Team 2 gives the wrong answer                                                      |
 
 
 ---
