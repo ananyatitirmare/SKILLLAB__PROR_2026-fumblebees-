@@ -57,26 +57,28 @@ By the final review, this README should clearly show:
 
 ## 1.1 Studio / Group Name
 
-`Project^2`
+`Fumblebees`
 
 ## 1.2 Team Members
 
 | Name           | Primary Role                    | Secondary Role | Strengths Brought to the Project |
 | -------------- | ------------------------------- | -------------- | -------------------------------- |
-| `Gopalakrishnan` | `[Electronics / Coding / App ]` | `Documentation`  | `Documentation, Gift of Gab `|
-| `KAder Shaikh`  | `[Electronics / Fabrication]`   | `[Coding]`     | `Material Handling, Hardware`    |
+| `Nirmiti Nalawade` | `[Electronics / ideation  ]` | `[Coding]`  | `Material Handling, Hardware `|
+| `Ananya Titirmare`  | `[Electronics / Documentation]`   | `[coding]`     | `Documentation, Hardware`    |
+| `Khushi Sayani`  | `[Electronics / Connections]`   | `[coding]`     | `Material Handling, Hardware`    |
+| `Ishaan Pailwan`  | `[Electronics / PPT]`   | `[videography]`     | `Material Handling, gift of gab`    |
+
+
 
 ## 1.3 Project Title
 
-`"Project Project"`
-
-`(because Project-or)`
+`"Morse Mayhem"``
 
 <img width="1600" height="1131" alt="image" src="https://github.com/user-attachments/assets/c64bfbd4-b3b7-43d9-83ad-c203a5aa11bc" />
 
 ## 1.4 One-Line Pitch
 
-`A projected, fully customizable time portal where engineering education is done through PUBG battlefield in the comfort of our home`
+`A real-time Morse code battle where players race to decode and transmit signals using dots and dashes faster than their opponent.`
 
 ## 1.5 Expanded Project Idea
 
@@ -87,7 +89,12 @@ In 1–2 paragraphs, explain:
 - what technologies are involved.
 
 **Response:**  
-`A projected and fully customizable time portal can transform engineering education into an immersive PUBG-style battlefield experience from the comfort of home. In this environment, students can learn engineering concepts by entering a virtual battlefield where challenges, obstacles, and missions are designed around real technical problems. Instead of passively studying theory, learners actively apply concepts such as electronics, coding, sensors, robotics, mechanics, and system design to complete missions, solve problems, and progress through different levels. This approach makes engineering education more interactive, engaging, and practical by combining gaming, simulation, and hands-on problem-solving in a familiar and exciting format.`
+`Our project is a **Real-Time Morse Code Battle System**, an interactive game-based embedded system where two teams of two players compete using Morse code communication.
+In each team, Player 1 is shown a secret word for a few seconds on the Arduino Serial Monitor, after which the word disappears. The player must quickly convert that word into Morse code using dots and dashes using a touch sensor, where a short touch represents a dot and a long touch represents a dash. The system then produces Morse code output separately through an LED and a buzzer, allowing Player 2 of each team to observe the light signals and listen to the sound signals carefully. Player 2 then decodes the Morse code, guesses the original word, writes it down, and submits the answer. The guessed words are entered into the Arduino Serial Monitor, where the system checks correctness and declares the team that guessed correctly as the winner of that round.
+
+This project creates a fun, competitive, and educational experience by combining teamwork, quick thinking, signal-based communication, and real-time decision-making. 
+
+The technologies involved include Vicharak Shrike Lite as the main controller, touch sensor for Morse code input, LED and buzzer for signal output, and the Arduino Serial Monitor for word display, result checking, and score tracking, making the project unique, engaging, and highly effective for demonstrating embedded systems and communication principles.`
 
 ---
 
@@ -118,7 +125,8 @@ List what inspired the project.
 
 | Source Type | Title / Link                                                        | What Inspired You                                                                         |
 | ----------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `[Video]`   | `https://www.instagram.com/reel/DW4CT7WCDry/?igsh=cXg3dzAxYmdncDBo` | `How projection mapping can be used to create interactive digital + physical experiences` |
+| `[movie ]`   | `https://youtu.be/YeOt1jSO9fQ?si=Diagco0IdMHI-YYL                 ` | `We were inspired by Raazi movie, where authentic coded communication and secret signal transfer motivated us to create a real-time Morse Code Battle System.
+
 |             |                                                                     |                                                                                           |
 |             |                                                                     |                                                                                           |
 
@@ -126,7 +134,8 @@ List what inspired the project.
 
 What makes your project original?
 
-**Response:**  
+**Response:** 
+Our project is original because it transforms traditional Morse code communication into a real-time team-based competitive game instead of a normal learning system. It combines encoding, live signal transmission using touch input with LED and buzzer output, and decoding under time pressure, creating an interactive battlefield-style experience. Unlike common automation or robot projects, it focuses on teamwork, strategy, and communication skills through a live multiplayer challenge.
 
 
 ---
