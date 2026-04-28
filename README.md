@@ -90,7 +90,6 @@ In 1–2 paragraphs, explain:
 
 **Response:**  
 `Our project is a **Real-Time Morse Code Battle System**, an interactive game-based embedded system where two teams of two players compete using Morse code communication.
-In each team, Player 1 is shown a secret word for a few seconds on the Arduino Serial Monitor, after which the word disappears. The player must quickly convert that word into Morse code using dots and dashes using a touch sensor, where a short touch represents a dot and a long touch represents a dash. The system then produces Morse code output separately through an LED and a buzzer, allowing Player 2 of each team to observe the light signals and listen to the sound signals carefully. Player 2 then decodes the Morse code, guesses the original word, writes it down, and submits the answer. The guessed words are entered into the Arduino Serial Monitor, where the system checks correctness and declares the team that guessed correctly as the winner of that round.
 
 This project creates a fun, competitive, and educational experience by combining teamwork, quick thinking, signal-based communication, and real-time decision-making. 
 
@@ -146,8 +145,11 @@ Our project is original because it transforms traditional Morse code communicati
 
 Describe exactly how a user will use the project.Make it a story
 **Response:**  
+At the start of the game, two teams of two players are ready for the Morse Code Battle. Player 1 from each team stands near the system and looks at the Arduino Serial Monitor, where a secret word is displayed for a few seconds, such as “CODE” or “SIGNAL.” After a short time, the word disappears, so the player must remember it quickly. Using the touch sensor, Player 1 converts the word into Morse code by giving short touches for dots and long touches for dashes. As the touches are made, the system produces Morse signals through the LED and buzzer.
 
-                                                  |
+Meanwhile, Player 2 of each team carefully watches the LED blinking pattern and listens to the buzzer sounds to decode the Morse code. They try to identify the original word and write their answer on paper before submitting it. The guessed words are then entered into the Arduino Serial Monitor, where the system checks whether the answer is correct. The team that decodes the word accurately and faster wins that round, making the game exciting, competitive, and interactive.
+
+                                                  
 
 
 
