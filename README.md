@@ -78,7 +78,7 @@ By the final review, this README should clearly show:
 
 ## 1.4 One-Line Pitch
 
-`A real-time Morse code battle where players race to decode and transmit signals using dots and dashes faster than their opponent.`
+`A real-time Morse code battle where players race to decode and transmit signals using dots and dashes.`
 
 ## 1.5 Expanded Project Idea
 
@@ -126,8 +126,6 @@ List what inspired the project.
 | ----------- | ------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
 | `[movie ]`   | `https://youtu.be/YeOt1jSO9fQ?si=Diagco0IdMHI-YYL                 ` | `We were inspired by Raazi movie, where authentic coded communication and secret signal transfer motivated us to create a real-time Morse Code Battle System.
 
-|             |                                                                     |                                                                                           |
-|             |                                                                     |                                                                                           |
 
 ## 3.2 Original Twist
 
@@ -335,7 +333,7 @@ Insert a hand-drawn or software-made circuit diagram.
 
 **Insert image below:**  
 `[Upload image and link here]`
-<img width="867" height="1156" alt="images" src="images/mkb9.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb4.jpeg" />
 
 
 
@@ -418,9 +416,7 @@ Suggested sequence:
 - error handling.
 
 **Insert image below:**  
-<img width="1600" height="1200" alt="images" src="images/mkb9" />
-<img width="1600" height="1200" alt="image" src="" />
-
+<img width="867" height="1156" alt="images" src="images/mkb9.jpeg" />
 
 
 # 11. Bill of Materials
@@ -447,7 +443,7 @@ Explain why you selected your main materials and components.
 **Response:**  
 ## 11.2 Material Justification
 
-The Vicharak Shrike Lite / Arduino Uno was selected as the main controller because it is capable of handling multiple digital inputs and outputs simultaneously, which is essential for managing touch sensors, LEDs, buzzer signals, and Serial Monitor communication in a real-time game system.
+The Vicharak Shrike Lite was selected as the main controller because it is capable of handling multiple digital inputs and outputs simultaneously, which is essential for managing touch sensors, LEDs, buzzer signals, and Serial Monitor communication in a real-time game system.
 
 Touch sensors were chosen instead of push buttons because they provide a more interactive and fast-response method for entering Morse code using simple short and long touches. LEDs and buzzers were used as output devices because they clearly represent Morse code signals in both visual (light) and audio (sound) forms, making it easier for the second player to decode the message accurately. The Serial Monitor was selected as the display interface because it eliminates the need for an LCD and simplifies the system while still effectively showing words, inputs, and results in real time.
 
@@ -687,7 +683,7 @@ First, the overall layout of the project was planned on paper, deciding where th
 A simple base structure (cardboard/board) was prepared and cut to size to hold all components neatly. Separate areas were marked for Team A and Team B to avoid confusion during gameplay.
 
 **Assembly:**
-All electronic components like the Shrike Lite/Arduino board, touch sensors, LEDs, and buzzer were placed on the base structure. Components were positioned in a way that both teams could easily interact with their inputs and outputs.
+All electronic components like the Shrike Lite, touch sensors, LEDs, and buzzer were placed on the base structure. Components were positioned in a way that both teams could easily interact with their inputs and outputs.
 
 **Fastening:**
 Components were fixed using tape, glue, and mounting supports. The breadboard was kept stable to prevent loose connections during testing and gameplay.
@@ -713,10 +709,9 @@ Suggested images:
 - mechanism test,
 - app screenshot,
 - final build.
-- <img width="960" height="1280" alt="WhatsApp Image 2026-04-24 at 9 46 02 AM (1)" src="https://github.com/user-attachments/assets/74baa570-5770-483e-be6d-d2f03386e37c" />
-
-
-
+-
+<img width="867" height="1156" alt="images" src="images/mkb4.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb3.jpeg" />
 
 
 # 17. Final Outcome
