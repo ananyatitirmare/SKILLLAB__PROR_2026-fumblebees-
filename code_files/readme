@@ -1,1 +1,305 @@
-Insert your documented code here
+/*
+DASH DOT DUEL - MULTI ROUND VERSION
+Board: Pico 2 H / Vicharak Shrike Lite
+
+NEW FEATURES:
+1. Game starts ONLY when you type START in Serial Monitor
+2. Multi-round game (Best of 5 rounds)
+3. Different words for both teams
+4. 15 sec thinking time
+5. 15 sec input time
+6. Short touch = .
+7. Long touch = _
+8. Long pause = space between letters
+9. Yellow LED = .
+10. Buzzer = _
+11. Space = 2 sec delay
+12. Green LED = correct
+13. Red LED = wrong
+*/
+
+#define TOUCH_A 14
+#define TOUCH_B 19
+
+#define YELLOW_A 15
+#define YELLOW_B 20
+
+#define BUZZER_A 16
+#define BUZZER_B 21
+
+#define GREEN_A 17
+#define GREEN_B 22
+
+#define RED_A 18
+#define RED_B 26
+
+const int SHORT_TOUCH = 300;      // <300ms = .
+const int LETTER_GAP = 1500;      // >1500ms = next letter
+const int INPUT_TIME = 20000;     // 15 sec
+const int TOTAL_ROUNDS = 5;
+
+String words[] = {
+  "GO",
+  "RUN",
+  "SOS",
+  "UP",
+  "ON",
+  "OFF",
+  "YES",
+  "NO",
+  "WIN",
+  "FAST",
+  "STOP",
+  "HELP",
+  "CODE",
+  "SAVE",
+  "FIRE"
+};
+
+int scoreA = 0;
+int scoreB = 0;
+
+void setup() {
+  Serial.begin(115200);
+
+  while (!Serial) {
+    delay(100);
+  }
+
+  delay(2000);
+
+  pinMode(TOUCH_A, INPUT);
+  pinMode(TOUCH_B, INPUT);
+
+  pinMode(YELLOW_A, OUTPUT);
+  pinMode(YELLOW_B, OUTPUT);
+
+  pinMode(BUZZER_A, OUTPUT);
+  pinMode(BUZZER_B, OUTPUT);
+
+  pinMode(GREEN_A, OUTPUT);
+  pinMode(GREEN_B, OUTPUT);
+
+  pinMode(RED_A, OUTPUT);
+  pinMode(RED_B, OUTPUT);
+
+  randomSeed(analogRead(A0));
+
+  Serial.println("=================================");
+  Serial.println("DASH DOT DUEL");
+  Serial.println("Type START and press Enter");
+  Serial.println("=================================");
+}
+
+void loop() {
+  String command = readSerialWord();
+  command.toUpperCase();
+
+  if (command == "START") {
+    startGame();
+    while (1);
+  } else {
+    Serial.println("Please type START");
+  }
+}
+
+void startGame() {
+  Serial.println("\n===== GAME STARTED =====\n");
+
+  for (int round = 1; round <= TOTAL_ROUNDS; round++) {
+    Serial.println("\n==============================");
+    Serial.print("ROUND ");
+    Serial.println(round);
+    Serial.println("==============================");
+
+    playRound();
+
+    Serial.println("\nCURRENT SCORE");
+    Serial.print("TEAM A: ");
+    Serial.println(scoreA);
+
+    Serial.print("TEAM B: ");
+    Serial.println(scoreB);
+
+    delay(2000);
+  }
+
+  Serial.println("\n========== FINAL RESULT ==========");
+  Serial.print("TEAM A SCORE: ");
+  Serial.println(scoreA);
+
+  Serial.print("TEAM B SCORE: ");
+  Serial.println(scoreB);
+
+  if (scoreA > scoreB) {
+    Serial.println("\n>>> TEAM A CHAMPION! <<<");
+  }
+  else if (scoreB > scoreA) {
+    Serial.println("\n>>> TEAM B CHAMPION! <<<");
+  }
+  else {
+    Serial.println("\n>>> MATCH DRAW! <<<");
+  }
+}
+
+void playRound() {
+  resetLEDs();
+
+  int indexA = random(0, sizeof(words) / sizeof(words[0]));
+  int indexB = random(0, sizeof(words) / sizeof(words[0]));
+
+  while (indexB == indexA) {
+    indexB = random(0, sizeof(words) / sizeof(words[0]));
+  }
+
+  String wordA = words[indexA];
+  String wordB = words[indexB];
+
+  // show words only after START
+  Serial.println("\nTEAM A WORD:");
+  Serial.println(wordA);
+
+  Serial.println("\nTEAM B WORD:");
+  Serial.println(wordB);
+
+  Serial.println("\nMemorize for 5 seconds...");
+  delay(5000);
+
+  for (int i = 0; i < 35; i++) {
+    Serial.println();
+  }
+
+  Serial.println("WORDS HIDDEN");
+  Serial.println("30 sec thinking time...");
+  countdown(30);
+
+  Serial.println("\nTEAM A INPUT START");
+  String morseA = captureMorse(TOUCH_A);
+
+  Serial.println("\nTEAM B INPUT START");
+  String morseB = captureMorse(TOUCH_B);
+
+  Serial.println("\nTEAM A MORSE: " + morseA);
+  Serial.println("TEAM B MORSE: " + morseB);
+
+  Serial.println("\nPLAYBACK TEAM A");
+  playback(morseA, YELLOW_A, BUZZER_A);
+
+  Serial.println("\nPLAYBACK TEAM B");
+  playback(morseB, YELLOW_B, BUZZER_B);
+
+  Serial.println("\nEnter TEAM A final guess:");
+  String guessA = readSerialWord();
+  guessA.toUpperCase();
+
+  Serial.println("Enter TEAM B final guess:");
+  String guessB = readSerialWord();
+  guessB.toUpperCase();
+
+  bool aCorrect = (guessA == wordA);
+  bool bCorrect = (guessB == wordB);
+
+  Serial.println("\nROUND RESULT");
+
+  if (aCorrect) {
+    digitalWrite(GREEN_A, HIGH);
+    scoreA++;
+    Serial.println("TEAM A CORRECT");
+  } else {
+    digitalWrite(RED_A, HIGH);
+    Serial.println("TEAM A WRONG");
+  }
+
+  if (bCorrect) {
+    digitalWrite(GREEN_B, HIGH);
+    scoreB++;
+    Serial.println("TEAM B CORRECT");
+  } else {
+    digitalWrite(RED_B, HIGH);
+    Serial.println("TEAM B WRONG");
+  }
+}
+
+String captureMorse(int touchPin) {
+  unsigned long startTime = millis();
+  unsigned long lastInputTime = millis();
+  String morse = "";
+
+  while (millis() - startTime < INPUT_TIME) {
+    if (digitalRead(touchPin) == HIGH) {
+
+      if ((millis() - lastInputTime) > LETTER_GAP && morse.length() > 0) {
+        morse += " ";
+        Serial.println(" ");
+      }
+
+      unsigned long pressStart = millis();
+
+      while (digitalRead(touchPin) == HIGH);
+
+      unsigned long pressDuration = millis() - pressStart;
+
+      if (pressDuration < SHORT_TOUCH) {
+        morse += ".";
+        Serial.println(".");
+      } else {
+        morse += "_";
+        Serial.println("_");
+      }
+
+      lastInputTime = millis();
+      delay(300);
+    }
+  }
+
+  return morse;
+}
+
+void playback(String morse, int ledPin, int buzzerPin) {
+  for (int i = 0; i < morse.length(); i++) {
+    char c = morse.charAt(i);
+
+    if (c == '.') {
+      digitalWrite(ledPin, HIGH);
+      delay(300);
+      digitalWrite(ledPin, LOW);
+      delay(300);
+    }
+
+    else if (c == '_') {
+      digitalWrite(buzzerPin, HIGH);
+      delay(700);
+      digitalWrite(buzzerPin, LOW);
+      delay(300);
+    }
+
+    else if (c == ' ') {
+      delay(2000); // letter separator
+    }
+  }
+}
+
+void countdown(int seconds) {
+  for (int i = seconds; i > 0; i--) {
+    Serial.print("Time Left: ");
+    Serial.println(i);
+    delay(1000);
+  }
+}
+
+void resetLEDs() {
+  digitalWrite(GREEN_A, LOW);
+  digitalWrite(GREEN_B, LOW);
+  digitalWrite(RED_A, LOW);
+  digitalWrite(RED_B, LOW);
+}
+
+String readSerialWord() {
+  while (Serial.available() == 0) {
+    delay(100);
+  }
+
+  String input = Serial.readStringUntil('\n');
+  input.trim();
+  return input;
+}
