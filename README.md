@@ -262,7 +262,9 @@ There is no mobile app used in this project. The Arduino Serial Monitor acts as 
 Add an early sketch of the full idea.
 
 **Insert image below:**  
-`[Upload image and link here]` 
+`[<img width="1600" height="1131" alt="image" src="image/mkb4.jpeg" />]` 
+`[<img width="1600" height="1131" alt="image" src="image/mkb5.jpeg" />]` 
+
 
 Example:
 
@@ -301,15 +303,18 @@ Add a sketch with labels showing:
 
 ## 8.1 Electronics Used
 
-| Component                 | Quantity | Purpose                               |
-| ------------------------- | --------:| ------------------------------------- |
-| `[ESP32]`                 | `1`      | `[Main controller]`                   |
-| `[L298N Motor Driver]`    | `1`      | `[Control Motors]`                    |
-| `[BO Motors]`             | `2`      | `[Rotate wheels]`                     |
-| `[Buck Converter]`        | `1`      | `[Power ESP32]`                       |
-| `[Li Ion Battery Pack]`   | `2`      | `[Power]`                             |
-| `[Projector]`             | `1`      | `[Display obstacles]`                 |
-| `Camera (Webcam / Phone)` | `1`      | `[Tracks car position using markers]` |
+| Component                | Quantity | Purpose                                                                       |
+| ------------------------ | -------- | ------------------------------------------------------------------------------|                                        
+| Vicharak Shrike Lite     |        1 | Main controller for processing Morse code inputs and outputs                   |
+| Touch Sensor             |        2 | Used by Player 1 of each team to enter Morse code using short and long touches |
+| Yellow LED               |        2 | Displays Morse code signals through blinking output                            |
+| Green LED                |        2 | Indicates correct answer for each team                                         |
+| Red LED                  |        2 | Indicates wrong answer for each team                                           |
+| Buzzer                   |        2 | Produces Morse code beep sounds for each team                                  |
+| Breadboard               |        1 | Used for circuit connections and component setup                               |
+| Jumper Wires             | Multiple | Connects all components with the controller                                    |
+| USB Cable / Power Supply |        1 | Powers the Shrike Lite board and the system                                    |
+| Arduino Serial Monitor   |        1 | Displays secret words, player turns, guessed answers, and final results        |
 
 ## 8.2 Wiring Plan
 
@@ -328,7 +333,10 @@ Insert a hand-drawn or software-made circuit diagram.
 
 **Insert image below:**  
 `[Upload image and link here]`
-<img width="867" height="1156" alt="" src="" />
+<img width="867" height="1156" alt="image" src="image/mkb4.jpeg" />
+
+
+
 
 
 # 9. Power Plan
@@ -346,12 +354,13 @@ Insert a hand-drawn or software-made circuit diagram.
 
 ## 10.1 Software Tools
 
-| Tool / Platform                | Purpose                                        |
-| ------------------------------ | ---------------------------------------------- |
-| `[MicroPython]`                | `Control ESP32`                                |
-| `[Python/PyGame/OpenCV]`       | `Track markers, game logic, create projection` |
-| `[Fusion/Blender/Illustrator]` | `[Prototyping structure]`                      |
-|                                |                                                |
+| Tool / Platform                 | Purpose                                                                |
+| ------------------------------- | ---------------------------------------------------------------------- |
+| Arduino IDE                     | Used to write and upload code to Vicharak Shrike Lite / Arduino Uno    |
+| Arduino Serial Monitor          | Displays secret words, player inputs, guesses, and game results        |
+| C / C++ (Arduino Language)      | Used to program logic for Morse code encoding, decoding, and game flow |
+| Embedded C Libraries            | Used for handling GPIO control, timing, and sensor input processing    |
+
 
 ## 10.2 Software Logic
 
