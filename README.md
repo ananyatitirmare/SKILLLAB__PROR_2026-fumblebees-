@@ -285,7 +285,7 @@ Add a sketch with labels showing:
 - output elements.
 
 **Insert image below:**  
-<img width="1600" height="1200" alt="images" src="images/mkb6" />
+<img width="1600" height="1200" alt="images" src="images/mkb6.jpeg" />
 
 
 ## 7.3 Approximate Dimensions
@@ -333,7 +333,7 @@ Insert a hand-drawn or software-made circuit diagram.
 
 **Insert image below:**  
 `[Upload image and link here]`
-<img width="867" height="1156" alt="images" src="images/mkb4.jpeg" />
+<img width="867" height="1156" alt="images" src="images/mkb9.jpeg" />
 
 
 
