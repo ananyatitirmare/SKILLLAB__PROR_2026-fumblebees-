@@ -76,7 +76,7 @@ By the final review, this README should clearly show:
 
 <img width="1600" height="1131" alt="images" src="images/mkb1.jpeg"/>
 Youtube video link
-<https://youtu.be/03DDm3TSC_o?si=O5UKdrPGedf8HJI7>
+https://youtu.be/03DDm3TSC_o?si=O5UKdrPGedf8HJI7
 
 ## 1.4 One-Line Pitch
 
