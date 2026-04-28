@@ -262,8 +262,8 @@ There is no mobile app used in this project. The Arduino Serial Monitor acts as 
 Add an early sketch of the full idea.
 
 **Insert image below:**  
-`[<img width="1600" height="1131" alt="images" src="images/mkb4.jpeg" />]` 
-`[<img width="1600" height="1131" alt="images" src="images/mkb5.jpeg" />]` 
+<img width="1600" height="1131" alt="images" src="images/mkb4.jpeg" /> 
+<img width="1600" height="1131" alt="images" src="images/mkb5.jpeg" /> 
 
 
 Example:
